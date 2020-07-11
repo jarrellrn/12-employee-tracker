@@ -26,16 +26,57 @@ function main(){
     }).then(function(answers){
         switch(answers.main){
             case "Add departments, roles, employees":
-                console.log("You have chosen to add.");
-                break;
+                return add();
             case "View departments, roles, employees":
-                console.log("You have chosen to view.");
-                break;
+                return view();
             case "Update employee roles":
-                console.log("You have chosen to update.");
-                break;
+                return update();
         }
     });
 }
-
 main();
+//////////////////////////////////////////////////////
+function add(){
+
+};
+//////////////////////////////////////////////////////
+
+
+
+
+//////////////////////////////////////////////////////
+function view(){
+    inquirer.prompt({
+        name: 'view',
+        message: 'What would you like to view?',
+        type: 'list',
+        choices: ["Departments", "Roles", "Employees"]
+    }).then(function(answers){
+        switch(answers.view){
+            case "Departments":
+                return add();
+            case "Roles":
+                return view();
+            case "Employees":
+                return update();
+        }
+    });
+
+    connection.query(queryString, function(err, result) {
+        if (err) {
+          throw err;
+        }
+        cb(result);
+      });
+};
+
+//////////////////////////////////////////////////////
+
+
+
+
+//////////////////////////////////////////////////////
+function update(){
+
+};
+//////////////////////////////////////////////////////
