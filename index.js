@@ -35,16 +35,16 @@ function main(){
     });
 }
 main();
-//////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 function add(){
 
 };
-//////////////////////////////////////////////////////
+/////////////////////////////////
 
 
 
 
-//////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 function view(){
     inquirer.prompt({
         name: 'view',
@@ -54,29 +54,52 @@ function view(){
     }).then(function(answers){
         switch(answers.view){
             case "Departments":
-                return add();
+                return viewDepartments();
             case "Roles":
-                return view();
+                return viewRoles();
             case "Employees":
-                return update();
+                return viewEmployees();
         }
     });
+};
 
-    connection.query(queryString, function(err, result) {
+function viewDepartments(){
+    connection.query("SELECT * FROM department", function(err, result) {
         if (err) {
           throw err;
         }
-        cb(result);
+        console.log(result);
+        return main();
       });
-};
+}
 
-//////////////////////////////////////////////////////
+function viewRoles(){
+    connection.query("SELECT * FROM role", function(err, result) {
+        if (err) {
+          throw err;
+        }
+        console.log(result);
+        return main();
+      });
+}
+
+function viewEmployees(){
+    connection.query("SELECT * FROM employee", function(err, result) {
+        if (err) {
+          throw err;
+        }
+        console.log(result);
+        return main();
+      });
+}
+
+/////////////////////////////////
 
 
 
 
-//////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 function update(){
 
 };
-//////////////////////////////////////////////////////
+/////////////////////////////////
