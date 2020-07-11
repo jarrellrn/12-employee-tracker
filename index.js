@@ -34,11 +34,101 @@ function main(){
         }
     });
 }
-main();
 ////////////////////////////////////////////////////////////////
 function add(){
-
+    inquirer.prompt({
+        name: 'add',
+        message: 'What would you like to add?',
+        type: 'list',
+        choices: ["Department", "Role", "Employee"]
+    }).then(function(answers){
+        switch(answers.add){
+            case "Department":
+                return addDepartment();
+            case "Role":
+                return addRole();
+            case "Employee":
+                return addEmployee();
+        }
+    });
 };
+
+function addDepartment(){
+    inquirer.prompt({
+        name: 'departmentType',
+        message: 'What department would you like to add?',
+        type: 'input'
+    }).then(function(answers){
+        connection.query("INSERT INTO department (name) VALUES (?)", [answers.departmentType], function(err, result) {
+            if (err) {
+              throw err;
+            }
+            console.log("Added department.");
+            return main();
+          });
+    });
+}
+
+function addRole(){
+    inquirer.prompt([
+        {
+            name: 'roleTitle',
+            message: 'What role would you like to add?',
+            type: 'input'
+        },
+        {
+            name: "roleSalary",
+            message: "What is the role's salary?",
+            type: "input"
+        },
+        {
+            name: "roleDepartmentID",
+            message: "Department ID?",
+            type: "input"
+        }
+    ]).then(function(answers){
+        connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [answers.roleTitle, answers.roleSalary, answers.roleDepartmentID], function(err, result) {
+            if (err) {
+              throw err;
+            }
+            console.log("Added role.");
+            return main();
+          });
+    });
+}
+
+function addEmployee(){
+    inquirer.prompt([
+        {
+            name: 'employeeFN',
+            message: "What is the employee's first name?",
+            type: 'input'
+        },
+        {
+            name: "employeeLN",
+            message: "What is the employee's last name?",
+            type: "input"
+        },
+        {
+            name: "employeeRoleID",
+            message: "What is the employee's role ID?",
+            type: "input"
+        },
+        {
+            name: "employeeManagerID",
+            message: "What is the employee's manager's ID? (Please input null if no manager)",
+            type: "input"
+        }
+    ]).then(function(answers){
+        connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answers.employeeFN, answers.employeeLN, answers.employeeRoleID, answers.employeeManagerID], function(err, result) {
+            if (err) {
+              throw err;
+            }
+            console.log("Added employee.");
+            return main();
+          });
+    });
+}
 /////////////////////////////////
 
 
@@ -103,3 +193,4 @@ function update(){
 
 };
 /////////////////////////////////
+main();
